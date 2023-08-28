@@ -1,31 +1,70 @@
 <html>
-
 <head>
-  <script src="seedling.js" type="module"></script>
+  <script src="seedling.js"></script>
 </head>
-
-<body>
-  <object id="Seedling" name="Seedling" type="application/x-shockwave-flash" data="Seedling.swf" width="480"
-    height="480">
-    <param name="movie" value="Seedling.swf" />
-    <param name="quality" value="high" />
-    <param name="AllowScriptAccess" value="always" />
+<body onload="pageInit();">
+    <object id="Seedling"  name="Seedling" 
+  type="application/x-shockwave-flash" data="Seedling.swf" width="480" height="480">
+    <param name="movie" value="Seedling.swf"/>
+    <param name="quality" value="high"/>
+    <param name="AllowScriptAccess" value="always"/>
     <a href="http://www.adobe.com/go/getflash">
-      <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif"
-        alt="Get Adobe Flash player" />
+        <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"/>
     </a>
   </object>
 
   <div id="text_log"></div>
 
-  <button id="death_button">Death Button</button>
-  <button id="return_to_spawn">Return To Spawn</button>
-  <button id="reload_items">Reload Items</button>
-  <br> hostname: <input id="server_hostname" type="text" />
-  <br> port: <input id="server_port" type="text" />
-  <br> name: <input id="server_name" type="text" />
-  <br> <button id="connect_to_server">Connect to Server</button>
-
+  <button onclick="killPlayer()">Death Button</button>
+  <button onclick="addItemFromField()">Add Item from field:</button>
+  <input id="item_name" type="text"/>
+  Seal Count: <input id="seal_count" type="text"/>
+  <div id="current_collected">collectedLocations: []</div>
+  <button onclick="resetCollected()">Reset Collected Locations</button>
+  <button onclick="returnToSpawn()">Return To Spawn</button>
+    <div>
+      <br>
+      Reset items: "reset"
+      <br>
+      hasTorch: torch
+      <br>
+    hasSword: sword
+    <br>
+    hasFireWand: firewand
+    <br>
+    hasShield: shield
+    <br>
+    hasFeather: feather
+    <br>
+    hasDarkSword: darksword
+    <br>
+    hasDarkShield: darkshield
+    <br>
+    hasWand: wand
+    <br>
+    hasSpear: spear
+    <br>
+    hasGhostSword: ghostsword
+    <br>
+    hasDarkSuit: darksuit
+    <br>
+    hasFire: fire
+    <br>
+    canSwim: conch
+    <br>
+    red key: key0
+    <br>
+    green key: key1
+    <br>
+    purple key: key2
+    <br>
+    blue key: key3
+    <br>
+    yellow key: key4
+    <br>
+    health: health
+    <br>
+    totem pieces: totem0, totem1, totem2, totem3, totem4
+    </div>
 </body>
-
 </html>
