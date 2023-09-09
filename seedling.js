@@ -122,6 +122,9 @@ window.playerDied = function () {
 };
 
 window.collectLocation = function (loc_name) {
+  document.getElementById(
+    "text_log"
+  ).innerText = `checked ${loc_name} = ${location_flash_to_id[loc_name]}`;
   if (loc_name == "bloody_seed" || loc_name == "bloodless_seed") {
     if (!client.data.slotData["ending"] && loc_name == "bloody_seed") {
       client.updateStatus(30);
@@ -132,9 +135,6 @@ window.collectLocation = function (loc_name) {
     !boss_locations.includes(loc_name) ||
     client.data.slotData["boss_locations"]
   ) {
-    document.getElementById(
-      "text_log"
-    ).innerText = `checked ${loc_name} = ${location_flash_to_id[loc_name]}`;
     client.locations.check(location_flash_to_id[loc_name]);
   }
 };
