@@ -19,12 +19,28 @@ let client = new Client();
 let recieved_items = []; //Workaround for ap.js@1.0.0 not having client.items.received
 window.client = client;
 
+// Set up event listeners
+client.addListener(SERVER_PACKET_TYPE.CONNECTED, (packet) => {
+  console.log("Connected to server: ", packet);
+});
+
+client.addListener(SERVER_PACKET_TYPE.ROOM_UPDATE, (packet) => {
+  console.log("Room update: ", packet);
+});
+
+client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
+  console.log("Recieved items:", packet);
+  //This is a workaround for ap.js@1.0.0 not having client.items.received
+  for (let item of packet.items) {
+    recieved_items.push(item);
+  }
+  reloadItems();
+});
+
 function connectToServer() {
   recieved_items = [];
   if (client.status != "Disconnected") {
-    client.disconnect();
-    client = new Client();
-    window.client = client;
+    return;
   }
 
   let connectionInfo = {
@@ -36,33 +52,17 @@ function connectToServer() {
     tags: ["DeathLink"],
   };
 
-  // Set up event listeners
-  client.addListener(SERVER_PACKET_TYPE.CONNECTED, (packet) => {
-    console.log("Connected to server: ", packet);
-  });
-
-  client.addListener(SERVER_PACKET_TYPE.ROOM_UPDATE, (packet) => {
-    console.log("Room update: ", packet);
-  });
-
-  client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
-    console.log("Recieved items:", packet);
-    //This is a workaround for ap.js@1.0.0 not having client.items.received
-    for (let item of packet.items) {
-      recieved_items.push(item);
-    }
-    reloadItems();
-  });
-
   // Connect to the Archipelago server
   client
     .connect(connectionInfo)
     .then(() => {
       console.log("Connected to the server");
+      document.getElementById("connection_status").innerText = client.status;
       // You are now connected and authenticated to the server. You can add more code here if need be.
     })
     .catch((error) => {
       console.error("Failed to connect:", error);
+      document.getElementById("connection_status").innerText = client.status;
       // Handle the connection error.
     });
 
@@ -162,6 +162,7 @@ window.getSealCount = function () {
     }
   }
   console.log("get seal count done");
+  document.getElementById("seal-count").innerText=sealCount;
   return sealCount;
 };
 
