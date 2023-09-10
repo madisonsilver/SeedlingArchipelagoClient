@@ -37,6 +37,12 @@ client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
   reloadItems();
 });
 
+client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet)=>{
+  if (packet.tags?.includes("DeathLink")){
+    killPlayer();
+  }
+});
+
 function connectToServer() {
   recieved_items = [];
   if (client.status != "Disconnected") {
@@ -97,6 +103,7 @@ let returnHome = 0;
 let deaths = 0;
 window.playerDied = function () {
   deaths += 1;
+  console.log(`deaths: ${deaths}`)
   if (returnHome) {
     document.getElementById("text_log").innerText =
       "player died, returning home";
@@ -108,6 +115,7 @@ window.playerDied = function () {
     deaths >= client.data.slotData["deathlink_amnesty"]
   ) {
     deaths -= client.data.slotData["deathlink_amnesty"];
+    console.log(`sending deathlink, new deaths: ${deaths}`)
     client.send({
       cmd: "Bounce",
       tags: ["DeathLink"],
