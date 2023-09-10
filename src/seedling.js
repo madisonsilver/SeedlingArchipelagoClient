@@ -38,7 +38,8 @@ client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
 });
 
 client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet)=>{
-  if (packet.tags?.includes("DeathLink")){
+  console.log(`Bounced: ${packet}`);
+  if (packet.tags?.includes("DeathLink") && packet.data.source != client.players.name(client.data.slot)){
     killPlayer();
   }
 });
@@ -120,7 +121,7 @@ window.playerDied = function () {
       cmd: "Bounce",
       tags: ["DeathLink"],
       data: {
-        source: client.players.get(client.data.slot)?.alias,
+        source: client.players.name(client.data.slot),
         time: Date.now() / 1e3,
       },
     });
