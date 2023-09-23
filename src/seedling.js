@@ -181,10 +181,6 @@ function returnToSpawn() {
   killPlayer();
 }
 
-document.getElementById("death_button").addEventListener("click", killPlayer);
-document
-  .getElementById("return_to_spawn")
-  .addEventListener("click", returnToSpawn);
 document
   .getElementById("connect_to_server")
   .addEventListener("click", connectToServer);
