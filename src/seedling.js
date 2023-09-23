@@ -36,31 +36,43 @@ client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
 
 client.addListener(SERVER_PACKET_TYPE.PRINT_JSON, (packet) => {
   console.log(packet);
-  if (packet.type != "ItemSend"){
+  if (packet.type != "ItemSend") {
     return;
   }
-  if (packet.receiving != client.data.slot && packet.item.player != client.data.slot){
+  if (
+    packet.receiving != client.data.slot &&
+    packet.item.player != client.data.slot
+  ) {
     return;
   }
   let result = "";
-  for (let segment of packet.data){
-    if (segment.type=="player_id"){
-      result+=client.players.name(parseInt(segment.text));
-    } else if (segment.type=="item_id"){
+  for (let segment of packet.data) {
+    if (segment.type == "player_id") {
+      result += client.players.name(parseInt(segment.text));
+    } else if (segment.type == "item_id") {
       //client.players.game(segment.player) is a workaround for 1.0.0 not supporting name(int, int)
-      result+=client.items.name(client.players.game(segment.player), parseInt(segment.text));
-    } else if (segment.type=="location_id"){
-      result+=client.locations.name(client.players.game(segment.player), parseInt(segment.text));
+      result += client.items.name(
+        client.players.game(segment.player),
+        parseInt(segment.text)
+      );
+    } else if (segment.type == "location_id") {
+      result += client.locations.name(
+        client.players.game(segment.player),
+        parseInt(segment.text)
+      );
     } else {
-      result+=segment.text;
+      result += segment.text;
     }
   }
-  document.getElementById("text_log").innerText+=result+"\n";
+  document.getElementById("text_log").innerText += result + "\n";
 });
 
-client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet)=>{
+client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet) => {
   console.log(`Bounced: ${packet}`);
-  if (packet.tags?.includes("DeathLink") && packet.data.source != client.players.name(client.data.slot)){
+  if (
+    packet.tags?.includes("DeathLink") &&
+    packet.data.source != client.players.name(client.data.slot)
+  ) {
     killPlayer();
   }
 });
@@ -106,7 +118,7 @@ function killPlayer() {
   document.getElementById("Seedling").killPlayer();
 }
 
-window.reloadItems = function() {
+window.reloadItems = function () {
   let item_ids = [];
   console.log(recieved_items);
   for (let net_item of recieved_items) {
@@ -117,19 +129,19 @@ window.reloadItems = function() {
     itemQueue.push(i);
   }
   document.getElementById("Seedling").printItems();
-}
+};
 
 //AS -> JS
 let deaths = 0;
 window.playerDied = function () {
   deaths += 1;
-  console.log(`deaths: ${deaths}`)
+  console.log(`deaths: ${deaths}`);
   if (
     client.data.slotData["deathlink"] &&
     deaths >= client.data.slotData["deathlink_amnesty"]
   ) {
     deaths -= client.data.slotData["deathlink_amnesty"];
-    console.log(`sending deathlink, new deaths: ${deaths}`)
+    console.log(`sending deathlink, new deaths: ${deaths}`);
     client.send({
       cmd: "Bounce",
       tags: ["DeathLink"],
@@ -179,7 +191,7 @@ window.getSealCount = function () {
     }
   }
   console.log("get seal count done");
-  document.getElementById("seal-count").innerText=sealCount;
+  document.getElementById("seal-count").innerText = sealCount;
   return sealCount;
 };
 
