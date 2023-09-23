@@ -85,7 +85,7 @@ function killPlayer() {
   document.getElementById("Seedling").killPlayer();
 }
 
-function reloadItems() {
+window.reloadItems = function() {
   let item_ids = [];
   console.log(recieved_items);
   for (let net_item of recieved_items) {
@@ -171,4 +171,3 @@ window.getSealCount = function () {
 document
   .getElementById("connect_to_server")
   .addEventListener("click", connectToServer);
-document.getElementById("reload_items").addEventListener("click", reloadItems);
