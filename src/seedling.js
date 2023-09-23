@@ -44,6 +44,11 @@ client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet)=>{
   }
 });
 
+// Disconnect from the server when unloading window.
+window.addEventListener("beforeunload", () => {
+  client.disconnect();
+});
+
 function connectToServer() {
   recieved_items = [];
   if (client.status != "Disconnected") {
@@ -72,11 +77,6 @@ function connectToServer() {
       document.getElementById("connection_status").innerText = client.status;
       // Handle the connection error.
     });
-
-  // Disconnect from the server when unloading window.
-  window.addEventListener("beforeunload", () => {
-    client.disconnect();
-  });
 }
 
 //JS -> AS
@@ -86,7 +86,6 @@ function killPlayer() {
 }
 
 function reloadItems() {
-  itemQueue.push("reset");
   let item_ids = [];
   console.log(recieved_items);
   for (let net_item of recieved_items) {

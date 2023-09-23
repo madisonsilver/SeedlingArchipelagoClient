@@ -46,7 +46,7 @@ let raw_location_data = [
     is_boss: false,
   },
   {
-    display_name: "Chest (Andan's cave)",
+    display_name: "Chest (Adnan's cave)",
     flash_name: "chest36",
     ID: "4",
     is_boss: false,
