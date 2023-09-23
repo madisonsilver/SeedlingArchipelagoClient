@@ -1,9 +1,7 @@
 import {
-  item_flash_to_id,
   location_flash_to_id,
   item_id_to_flash,
   items_to_flash,
-  location_id_to_flash,
   boss_locations,
 } from "./data.js";
 import {
@@ -29,12 +27,35 @@ client.addListener(SERVER_PACKET_TYPE.ROOM_UPDATE, (packet) => {
 });
 
 client.addListener(SERVER_PACKET_TYPE.RECEIVED_ITEMS, (packet) => {
-  console.log("Recieved items:", packet);
   //This is a workaround for ap.js@1.0.0 not having client.items.received
   for (let item of packet.items) {
     recieved_items.push(item);
   }
   reloadItems();
+});
+
+client.addListener(SERVER_PACKET_TYPE.PRINT_JSON, (packet) => {
+  console.log(packet);
+  if (packet.type != "ItemSend"){
+    return;
+  }
+  if (packet.receiving != client.data.slot && packet.item.player != client.data.slot){
+    return;
+  }
+  let result = "";
+  for (let segment of packet.data){
+    if (segment.type=="player_id"){
+      result+=client.players.name(parseInt(segment.text));
+    } else if (segment.type=="item_id"){
+      //client.players.game(segment.player) is a workaround for 1.0.0 not supporting name(int, int)
+      result+=client.items.name(client.players.game(segment.player), parseInt(segment.text));
+    } else if (segment.type=="location_id"){
+      result+=client.locations.name(client.players.game(segment.player), parseInt(segment.text));
+    } else {
+      result+=segment.text;
+    }
+  }
+  document.getElementById("text_log").innerText+=result+"\n";
 });
 
 client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet)=>{
@@ -118,13 +139,9 @@ window.playerDied = function () {
       },
     });
   }
-  document.getElementById("text_log").innerText = "player died";
 };
 
 window.collectLocation = function (loc_name) {
-  document.getElementById(
-    "text_log"
-  ).innerText = `checked ${loc_name} = ${location_flash_to_id[loc_name]}`;
   if (loc_name == "bloody_seed" || loc_name == "bloodless_seed") {
     if (!client.data.slotData["ending"] && loc_name == "bloody_seed") {
       client.updateStatus(30);
