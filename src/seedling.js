@@ -93,6 +93,7 @@ function connectToServer() {
     port: parseInt(document.getElementById("server_port").value), // Replace with the actual AP server port.
     game: "Seedling", // Replace with the game name for this player.
     name: document.getElementById("server_name").value, // Replace with the player slot name.
+    password: document.getElementById("server_password").value,
     items_handling: ITEMS_HANDLING_FLAGS.REMOTE_ALL,
     tags: ["DeathLink"],
   };
