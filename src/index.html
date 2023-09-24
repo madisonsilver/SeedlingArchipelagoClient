@@ -2,26 +2,51 @@
 
 <head>
   <script src="seedling.js" type="module"></script>
+  <link rel="stylesheet" href="seedling.css">
 </head>
 
 <body>
-  <object id="Seedling" name="Seedling" type="application/x-shockwave-flash" data="Seedling.swf" width="480"
-    height="480">
-    <param name="movie" value="Seedling.swf" />
-    <param name="quality" value="high" />
-    <param name="AllowScriptAccess" value="always" />
-    Flash Player Not Enabled!
-  </object>
+  <div class="container">
+    <div class="leftpane"><object id="Seedling" name="Seedling" type="application/x-shockwave-flash" data="Seedling.swf"
+        width="480" height="480">
+        <param name="movie" value="Seedling.swf" />
+        <param name="quality" value="high" />
+        <param name="AllowScriptAccess" value="always" />
+        Flash Player Not Enabled!
+      </object>
+      <br> hostname: <input id="server_hostname" type="text" />
+      <br> port: <input id="server_port" type="text" />
+      <br> name: <input id="server_name" type="text" />
+      <br> password: <input id="server_password" type="text" />
+      <br> <button id="connect_to_server">Connect to Server</button>
+      <div id="connection_status">Disconnected</div>
+    </div>
+    <div class="middlepane">
+      Seal count: <span id="seal-count">0</span>
+      <div id="text_log"></div>
+    </div>
+    <div class="rightpane">
+      <h1>Controls</h1>
+      Arrows - Movement <br>
+      V - Open inventory <br>
+      X/C - Use Item <br>
+      S - Return to Spawn <br>
+      R - Restart <br>
+      <h1>
+        Items
+      </h1>
+      "Progressive Swim" gives Conch then Penguin Feather. <br>
+      "Progressive Sword" gives Sword then Dark Sword. <br>
+      "Progressive Shield" gives Shield then Dark Shield. <br>
+      "Ghost Sword Fusion" gives you Ghost Sword if you have Sword and Spear. <br>
+      "Fire Wand Fusion" gives you Fire Wand if you have Fire and Wand. <br>
+    </div>
+  </div>
 
-  <div id="text_log"></div>
 
-  <br> hostname: <input id="server_hostname" type="text" />
-  <br> port: <input id="server_port" type="text" />
-  <br> name: <input id="server_name" type="text" />
-  <br> password: <input id="server_password" type="text" />
-  <br> <button id="connect_to_server">Connect to Server</button>
-  <div id="connection_status">Disconnected</div>
-  Seal count: <div id="seal-count">0</div>
+
+
+
 
 </body>
 
