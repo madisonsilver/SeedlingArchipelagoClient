@@ -64,7 +64,7 @@ client.addListener(SERVER_PACKET_TYPE.PRINT_JSON, (packet) => {
       result += segment.text;
     }
   }
-  document.getElementById("text_log").innerText += result + "\n";
+  addToTextLog(result+"\n");
 });
 
 client.addListener(SERVER_PACKET_TYPE.BOUNCED, (packet) => {
@@ -197,6 +197,16 @@ window.getSealCount = function () {
 };
 
 //Page UI
+
+function addToTextLog(text){
+  let text_log = document.getElementById("text_log");
+  let scroll_to_bottom = (Math.ceil(text_log.scrollHeight - text_log.scrollTop) === text_log.clientHeight);
+  document.getElementById("text_log").innerText+=text;
+  if (scroll_to_bottom){
+    text_log.scrollTop = text_log.scrollHeight;
+  }
+}
+
 
 document
   .getElementById("connect_to_server")

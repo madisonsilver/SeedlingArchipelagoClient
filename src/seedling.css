@@ -19,3 +19,8 @@
     width: 30%;
     height: 100vh;
 }
+
+#text_log {
+    overflow-y:scroll;
+    height: 50vh;
+}
